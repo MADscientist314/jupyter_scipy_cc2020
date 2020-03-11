@@ -27,10 +27,10 @@ dpkg -i irods-icommands-4.1.12-ubuntu14-x86_64.deb && \
 rm irods-icommands-4.1.12-ubuntu14-x86_64.deb
 
 # reset container user to jovyan
-USER madscientist314
+USER $USER
 
 # set the work directory
-WORKDIR /home/madscientist314
+WORKDIR /home/$USER
 
 # copy configuration json and entry file into the container
 COPY jupyter_notebook_config.json /opt/conda/etc/jupyter/jupyter_notebook_config.json
