@@ -1,0 +1,45 @@
+# base image
+FROM jupyter/scipy-notebook:latest
+
+# reset user to root for installing additional packages
+USER root
+
+# Install a few dependencies for iCommands, text editing, and monitoring instances
+RUN apt-get update && apt-get install -y \
+      apt-transport-https \
+      gcc \
+      gnupg \
+      htop \
+      less \
+      libfuse2 \
+      libpq-dev \
+      libssl1.0 \
+      lsb \
+      nano \
+      nodejs \
+      python-requests \
+      software-properties-common \
+      vim
+
+# Install iCommands
+RUN wget https://files.renci.org/pub/irods/releases/4.1.12/ubuntu14/irods-icommands-4.1.12-ubuntu14-x86_64.deb && \
+dpkg -i irods-icommands-4.1.12-ubuntu14-x86_64.deb && \
+rm irods-icommands-4.1.12-ubuntu14-x86_64.deb
+
+# reset container user to jovyan
+USER madscientist314
+
+# set the work directory
+WORKDIR /home/madscientist314
+
+# copy configuration json and entry file into the container
+COPY jupyter_notebook_config.json /opt/conda/etc/jupyter/jupyter_notebook_config.json
+COPY entry.sh /bin
+
+# expose the public port we want to run on
+EXPOSE 8888
+
+# directory will be populated by iCommands when entry.sh is run
+#RUN mkdir -p ~/.irods
+
+ENTRYPOINT ["bash", "/bin/entry.sh"]

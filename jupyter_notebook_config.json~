@@ -1,0 +1,10 @@
+{
+  "NotebookApp": {
+    "allow_origin" : "*",
+        "token":"",
+        "password":"madscientist314",
+    "nbserver_extensions": {
+      "jupyterlab": true
+    }
+  }
+}
